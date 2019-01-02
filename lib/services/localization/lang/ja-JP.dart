@@ -1,0 +1,1 @@
+const lang = <String, Map<String, String>> {};
