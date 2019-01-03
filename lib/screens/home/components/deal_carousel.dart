@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hifidelity/components/gradient_raised_button.dart';
 import 'package:hifidelity/model/timespan.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:hifidelity/services/localization/localization.dart';
 
 class DealCarousel extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class _DealCarouselState extends State<DealCarousel> {
       icon: 'assets/images/monero_icon.png',
       name: 'Monero',
       normalCost: 1.0,
-      newCostFactor: 0.2,
+      newCostFactor: 0.5,
       tokenCount: 250,
       timeRemaining: TimeSpan.fromTime(days: 39, hours: 4, minutes: 21),
     ),
@@ -41,83 +42,78 @@ class _DealCarouselState extends State<DealCarousel> {
   var page = 0;
 
   void leftCarouselButtonPressed() {
-    print('left');
     setState(() {
-      page--;
+      page = Math.max(page - 1, 0);
     });
   }
 
   void rightCarouselButtonPressed() {
-    print('right');
     setState(() {
-      page++;
+      page = Math.min(page + 1, data.length - 1);
     });
   }
 
   Widget timeRemainingWidget(BuildContext cxt) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12),
-      child: Center(
-        child: Container(
-          width: 260,
-          color: Color.fromARGB(255, 238, 238, 238),
-          child: Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'TIME REMAINING',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color.fromARGB(255, 131, 131, 131),
-                  ),
+    return Center(
+      child: Container(
+        width: 260,
+        color: Color.fromARGB(255, 238, 238, 238),
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                Localization.text('TimeRemaining', category: 'dealcarousel'),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 131, 131, 131),
                 ),
-                SizedBox(width: 12),
-                Text(
-                  '${data[page].timeRemaining.days.toString().padLeft(2, '0')}d',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 56, 152, 185),
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              SizedBox(width: 12),
+              Text(
+                '${data[page].timeRemaining.days.toString().padLeft(2, '0')}d',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 56, 152, 185),
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(width: 8),
-                Text(
-                  '|',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color.fromARGB(255, 131, 131, 131),
-                  ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                '|',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 131, 131, 131),
                 ),
-                SizedBox(width: 8),
-                Text(
-                  '${data[page].timeRemaining.hours.toString().padLeft(2, '0')}h',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 56, 152, 185),
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                '${data[page].timeRemaining.hours.toString().padLeft(2, '0')}h',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 56, 152, 185),
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(width: 8),
-                Text(
-                  '|',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color.fromARGB(255, 131, 131, 131),
-                  ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                '|',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromARGB(255, 131, 131, 131),
                 ),
-                SizedBox(width: 8),
-                Text(
-                  '${data[page].timeRemaining.minutes.toString().padLeft(2, '0')}m',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromARGB(255, 56, 152, 185),
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                '${data[page].timeRemaining.minutes.toString().padLeft(2, '0')}m',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 56, 152, 185),
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -165,7 +161,7 @@ class _DealCarouselState extends State<DealCarousel> {
                   flex: 3,
                   child: Center(
                     child: AutoSizeText(
-                      'at a',
+                      Localization.text('AtA', category: 'dealcarousel'),
                       minFontSize: 1,
                       maxFontSize: 999,
                       style: TextStyle(
@@ -182,7 +178,6 @@ class _DealCarouselState extends State<DealCarousel> {
                     children: [
                       LayoutBuilder(
                         builder: (cxt, constraints) { 
-                          print(constraints.biggest.width);
                           return Container(
                             width: constraints.biggest.width,
                             child: Row(
@@ -211,7 +206,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         }
                       ),
                       AutoSizeText(
-                        'DISCOUNT',
+                        Localization.text('Discount', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
@@ -244,7 +239,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         ),
                       ),
                       AutoSizeText(
-                        'ON THE DOLLAR',
+                        Localization.text('OnTheDollar', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
@@ -268,9 +263,9 @@ class _DealCarouselState extends State<DealCarousel> {
 
   Widget getDealWidget(BuildContext cxt) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           RichText(
             text: TextSpan(
@@ -280,7 +275,7 @@ class _DealCarouselState extends State<DealCarousel> {
               ),
               children: [
                 TextSpan(
-                  text: 'Buy up to ',
+                  text: Localization.text('BuyUpTo', category: 'dealcarousel'),
                 ),
                 TextSpan(
                   text: data[page].tokenCount.toString(),
@@ -290,7 +285,7 @@ class _DealCarouselState extends State<DealCarousel> {
                   ),
                 ),
                 TextSpan(
-                  text: ' tokens',
+                  text: Localization.text('Tokens', category: 'dealcarousel'),
                 ),
               ],
             ),
@@ -300,7 +295,7 @@ class _DealCarouselState extends State<DealCarousel> {
             height: 35,
             onPressed: () {},
             child: Text(
-              'GET THIS DEAL',
+              Localization.text('GetThisDeal', category: 'dealcarousel'),
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

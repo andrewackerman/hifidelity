@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hifidelity/screens/home/home_screen.dart';
+import 'package:hifidelity/screens/landing/landing_screen.dart';
 
 class AppScreen extends StatefulWidget {
   @override
@@ -13,8 +14,8 @@ class _AppScreenState extends State<AppScreen> {
       // initialRoute: '/home',
       routes: {
         // '/': (cxt) => null,
-        '/': (cxt) => HomeScreen(),
-        '/register': (cxt) => null,
+        '/': (cxt) => LandingScreen(),
+        '/home': (cxt) => HomeScreen(),
       },
     );
   }
