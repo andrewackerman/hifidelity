@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hifidelity/components/gradient_raised_button.dart';
-import 'package:hifidelity/components/iphonex_scaffold.dart';
 import 'package:hifidelity/screens/home/components/deal_carousel.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:hifidelity/components/gradient_progress_indicator.dart';
