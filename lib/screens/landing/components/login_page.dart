@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
             child: FractionallySizedBox(
               widthFactor: 0.6,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(cxt).pushNamed('/home'),
                 child: Text('LOGIN'),
               ),
             ),
