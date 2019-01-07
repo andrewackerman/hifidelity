@@ -13,9 +13,13 @@ final langMap = {
   const Locale('ja', 'JP'): jaJP.lang,
 };
 
+typedef LocalizationListener = void Function(Locale newLocale);
+
 class Localization {
   static Locale _locale;
   static Locale get locale => _locale;
+
+  static List<LocalizationListener> _listeners = [];
 
   static setLocale(Locale value) async {
     _locale = value;
@@ -31,26 +35,46 @@ class Localization {
 
     await Intl.initializeDateFormatting(_locale.toString());
     print('Locale set to $_locale');
+
+    alertListeners();
   }
 
-  static Iterable<Map<String, dynamic>> getSupportedLanguages() {
-    final langs = <Map<String, dynamic>> [];
+  static addListener(LocalizationListener listener) {
+    _listeners.add(listener);
+  }
 
-    for (var lang in langMap.values) {
-      langs.add({
-        'code': lang['languageDisplayCode'],
-        'name': lang['languageDisplayName'],
-      });
+  static removeListener(LocalizationListener listener) {
+    _listeners.remove(listener);
+  }
+
+  static alertListeners() {
+    for (var listener in _listeners) {
+      listener(_locale);
     }
-
-    return langs;
   }
 
-  static Map<String, dynamic> getCurrentLanguage() {
-    return {
-      'code': langMap[_locale]['languageDisplayCode'],
-      'name': langMap[_locale]['languageDisplayName'],
-    };
+  static Iterable<Language> getSupportedLanguages() {
+
+    return langMap.entries.map((e) => Language(name: e.value['languageDisplayName'], code: e.value['languageDisplayCode'], locale: e.key));
+
+    // final langs = <Map<String, dynamic>> [];
+
+    // for (var lang in langMap.values) {
+    //   langs.add({
+    //     'code': lang['languageDisplayCode'],
+    //     'name': lang['languageDisplayName'],
+    //   });
+    // }
+
+    // return langs;
+  }
+
+  static Language getCurrentLanguage() {
+    return Language(name: langMap[_locale]['languageDisplayName'], code: langMap[_locale]['languageDisplayCode'], locale: _locale);
+    // return {
+    //   'code': langMap[_locale]['languageDisplayCode'],
+    //   'name': langMap[_locale]['languageDisplayName'],
+    // };
   }
 
   static String text(String label, { String category }) {
@@ -92,4 +116,16 @@ class Localization {
   static String number(num value) {
     return NumberFormat.decimalPattern(_locale.toString()).format(value);
   }
+}
+
+class Language {
+  final String name;
+  final String code;
+  final Locale locale;
+
+  Language({
+    this.name,
+    this.code,
+    this.locale,
+  });
 }

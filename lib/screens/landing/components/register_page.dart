@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hifidelity/services/localization/localization.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  'Register your account',
+                  Localization.text('RegisterText', category: 'register'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -28,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  'Please fill out the info below to start.',
+                  Localization.text('RegisterSubtext', category: 'register'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -53,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child:  TextField(
                       decoration: InputDecoration(
-                        hintText: 'Name',
+                        hintText: Localization.text('Name', category: 'register'),
                       ),
                     ),
                   ),
@@ -64,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child:  TextField(
                       decoration: InputDecoration(
-                        hintText: 'Email',
+                        hintText: Localization.text('Email', category: 'register'),
                       ),
                     ),
                   ),
@@ -80,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
               widthFactor: 0.6,
               child: RaisedButton(
                 onPressed: () {},
-                child: Text('REGISTER'),
+                child: Text(Localization.text('Register', category: 'register')),
               ),
             ),
           ),

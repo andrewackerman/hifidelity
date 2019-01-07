@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/screens/landing/components/login_page.dart';
 import 'package:hifidelity/screens/landing/components/register_page.dart';
 import 'package:hifidelity/services/localization/localization.dart';
@@ -10,8 +11,30 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   PageController _pageController = PageController();
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    Localization.addListener(localeChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Localization.removeListener(localeChanged);
+    super.dispose();
+  }
+
+  void localeChanged(Locale newLocale) {
+    setState(() {});
+  }
+
+  void _drawerLanguageButtonClicked(BuildContext cxt) {
+    _scaffoldKey.currentState.openEndDrawer();
+  }
 
   newUserPressed() {
     setState(() {
@@ -30,6 +53,8 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext cxt) {
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: LocalizationDrawer(),
       body: Ink(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -47,13 +72,13 @@ class _LandingScreenState extends State<LandingScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: () => print('Language tapped'),
+                      onTap: () => _drawerLanguageButtonClicked(cxt),
                       child: Padding(
                         padding: EdgeInsets.only(left: 12),
                         child: Row(
                           children: [
                             Text(
-                              Localization.getCurrentLanguage()['code'], 
+                              Localization.getCurrentLanguage().code, 
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,

@@ -11,10 +11,19 @@ const lang = <String, dynamic> {
       'No': 'No',
       'Cancel': 'Cancel',
     },
+    'register': {
+      'Name': 'Email',
+      'Email': 'Email',
+      'Register': 'REGISTER',
+      'RegisterText': 'Register your account',
+      'RegisterSubtext': 'Please fill out the info below to start.',
+    },
     'login': {
-      'UserName': 'User Name',
+      'Email': 'Email',
       'Password': 'Password',
-      'Login': 'Login',
+      'Login': 'LOGIN',
+      'LoginText': 'Login to your account',
+      'LoginSubtext': 'Please fill out the info below.',
     },
     'overview': {
       'TokensOwned': 'Tokens Owned',

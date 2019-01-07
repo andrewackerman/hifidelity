@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hifidelity/services/localization/localization.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,6 +7,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  _loginButtonPressed(BuildContext cxt) {
+    Navigator.of(cxt).pushNamed('/home');
+  }
+
   @override
   Widget build(BuildContext cxt) {
     return Column(
@@ -17,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  'Login to your account',
+                  Localization.text('LoginText', category: 'login'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -28,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  'Please fill out the info below.',
+                  Localization.text('LoginSubtext', category: 'login'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -53,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child:  TextField(
                       decoration: InputDecoration(
-                        hintText: 'Email',
+                        hintText: Localization.text('Email', category: 'login'),
                       ),
                     ),
                   ),
@@ -64,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child:  TextField(
                       decoration: InputDecoration(
-                        hintText: 'Password',
+                        hintText: Localization.text('Password', category: 'login'),
                       ),
                     ),
                   ),
@@ -79,8 +84,8 @@ class _LoginPageState extends State<LoginPage> {
             child: FractionallySizedBox(
               widthFactor: 0.6,
               child: RaisedButton(
-                onPressed: () {},
-                child: Text('LOGIN'),
+                onPressed: () => _loginButtonPressed(cxt),
+                child: Text(Localization.text('Login', category: 'login')),
               ),
             ),
           ),
