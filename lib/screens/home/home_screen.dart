@@ -431,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () => _drawerLanguageButtonClicked(cxt),
             child: Row(
               children: [
-                Text(Localization.getCurrentLanguage().code),
+                Text(Localization.getCurrentLanguage().displayCode),
                 Padding(
                   padding: EdgeInsets.only(left: 8, right: 12),
                   child: Icon(MdiIcons.earth, size: 32),

@@ -15,7 +15,13 @@ class _DealCarouselState extends State<DealCarousel> {
   final data = [
     DealData(
       icon: 'assets/images/feather_icon.png',
-      name: 'Feather Coin',
+      name: LanguageEntry(
+        tag: 'FeatherCoin',
+        translations: {
+          'en-US': 'Feather Coin',
+          'ja-JP': '羽コイン',
+        },
+      ),
       normalCost: 1.0,
       newCostFactor: 0.2,
       tokenCount: 140,
@@ -23,7 +29,13 @@ class _DealCarouselState extends State<DealCarousel> {
     ),
     DealData(
       icon: 'assets/images/aureus_icon.png',
-      name: 'Aureus',
+      name: LanguageEntry(
+        tag: 'Aureus',
+        translations: {
+          'en-US': 'Aureus',
+          'ja-JP': 'アウレウス',
+        },
+      ),
       normalCost: 1.0,
       newCostFactor: 0.35,
       tokenCount: 75,
@@ -31,7 +43,13 @@ class _DealCarouselState extends State<DealCarousel> {
     ),
     DealData(
       icon: 'assets/images/monero_icon.png',
-      name: 'Monero',
+      name: LanguageEntry(
+        tag: 'Monero',
+        translations: {
+          'en-US': 'Monero',
+          'ja-JP': 'モネロ',
+        },
+      ),
       normalCost: 1.0,
       newCostFactor: 0.5,
       tokenCount: 250,
@@ -149,7 +167,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         child: Image.asset(data[page].icon),
                       ),
                       Text(
-                        data[page].name,
+                        data[page].name[Localization.getCurrentLanguage().code],
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -338,9 +356,23 @@ class _DealCarouselState extends State<DealCarousel> {
   }
 }
 
+class LanguageEntry {
+  final String tag;
+  final Map<String, String> translations;
+
+  LanguageEntry({
+    @required this.tag,
+    @required this.translations,
+  });
+
+  operator [](String localeName) {
+    return translations[localeName];
+  }
+}
+
 class DealData {
   final String icon;
-  final String name;
+  final LanguageEntry name;
   final double normalCost;
   final double newCostFactor;
   final int tokenCount;

@@ -56,7 +56,12 @@ class Localization {
 
   static Iterable<Language> getSupportedLanguages() {
 
-    return langMap.entries.map((e) => Language(name: e.value['languageDisplayName'], code: e.value['languageDisplayCode'], locale: e.key));
+    return langMap.entries.map((e) => Language(
+      name: e.value['languageDisplayName'], 
+      code: e.value['languageCode'], 
+      displayCode: e.value['languageDisplayCode'], 
+      locale: e.key,
+    ));
 
     // final langs = <Map<String, dynamic>> [];
 
@@ -71,7 +76,12 @@ class Localization {
   }
 
   static Language getCurrentLanguage() {
-    return Language(name: langMap[_locale]['languageDisplayName'], code: langMap[_locale]['languageDisplayCode'], locale: _locale);
+    return Language(
+      name: langMap[_locale]['languageDisplayName'], 
+      code: langMap[_locale]['languageCode'],
+      displayCode: langMap[_locale]['languageDisplayCode'],
+      locale: _locale,
+    );
     // return {
     //   'code': langMap[_locale]['languageDisplayCode'],
     //   'name': langMap[_locale]['languageDisplayName'],
@@ -127,11 +137,13 @@ class Localization {
 class Language {
   final String name;
   final String code;
+  final String displayCode;
   final Locale locale;
 
   Language({
     this.name,
     this.code,
+    this.displayCode,
     this.locale,
   });
 }

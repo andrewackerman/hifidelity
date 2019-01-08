@@ -78,7 +78,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         child: Row(
                           children: [
                             Text(
-                              Localization.getCurrentLanguage().code, 
+                              Localization.getCurrentLanguage().displayCode, 
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w300,
