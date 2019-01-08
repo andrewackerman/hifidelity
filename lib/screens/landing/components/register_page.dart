@@ -7,6 +7,20 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  void showRegisterDialog(BuildContext cxt) {
+    showDialog(context: cxt, builder: (context) {
+      return new AlertDialog(
+        content: Text(Localization.text('RegistrationNotAvailable', category: 'register')),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(Localization.text('OK')),
+          )
+        ],
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext cxt) {
     return Column(
@@ -80,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: FractionallySizedBox(
               widthFactor: 0.6,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () => showRegisterDialog(cxt),
                 child: Text(Localization.text('Register', category: 'register')),
               ),
             ),

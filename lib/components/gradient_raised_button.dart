@@ -11,7 +11,7 @@ class GradientRaisedButton extends StatelessWidget {
     Key key,
     @required this.child,
     this.gradient,
-    this.width = double.infinity,
+    this.width,
     this.height = 50.0,
     this.onPressed,
   }) : super(key: key);

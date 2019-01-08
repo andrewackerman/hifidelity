@@ -2,21 +2,28 @@ const lang = <String, dynamic> {
   'languageCode': 'en-US',
   'languageDisplayName': 'English',
   'languageDisplayCode': 'EN',
-  'entries': {
+  'currencyModifier': 1.0,
+  'text': {
     null : {
       'AppTitle': 'Hi-Fidelity',
       'Open': 'Open',
       'Close': 'Close',
       'Yes': 'Yes',
       'No': 'No',
+      'OK': 'OK',
       'Cancel': 'Cancel',
     },
+    'landing': {
+      'NewUser': 'New User',
+      'ExistingUser': 'Existing User',
+    },
     'register': {
-      'Name': 'Email',
+      'Name': 'Name',
       'Email': 'Email',
       'Register': 'REGISTER',
       'RegisterText': 'Register your account',
       'RegisterSubtext': 'Please fill out the info below to start.',
+      'RegistrationNotAvailable': 'Registration is not available at this time. Please try again later.',
     },
     'login': {
       'Email': 'Email',
@@ -46,6 +53,6 @@ const lang = <String, dynamic> {
       'BuyUpTo': 'Buy up to ',
       'Tokens': ' tokens',
       'GetThisDeal': 'GET THIS DEAL',
-    }
+    },
   },
 };

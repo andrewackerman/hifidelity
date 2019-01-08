@@ -126,7 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: TextDecoration.none,
                       fontWeight: FontWeight.normal,
                     ),
-                    children: [
+                    children: Localization.getCurrentLanguage().code == 'ja-JP'
+                    ? [
+                      TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
+                      TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ]
+                    : [
                       TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
                       TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),

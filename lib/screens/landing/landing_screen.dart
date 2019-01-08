@@ -98,27 +98,29 @@ class _LandingScreenState extends State<LandingScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(24),
-                child: Image.asset(
-                  'assets/images/monero_icon.png',
-                  fit: BoxFit.contain,
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: EdgeInsets.all(50),
+                  child: Image.asset(
+                    'assets/images/large_logo.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: _currentPage == 0 ? null : newUserPressed,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _currentPage == 0 ? Colors.grey[200] : Colors.transparent,
-                        borderRadius: BorderRadius.circular(16),
+                        color: _currentPage == 0 ? Colors.grey[200] : Colors.grey[800],
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                         child: Text(
-                          'New User',
+                          Localization.text('NewUser', category: 'landing'),
                           style: TextStyle(
                             color: _currentPage == 0 ? Colors.black : Colors.white,
                             fontSize: 18,
@@ -134,13 +136,12 @@ class _LandingScreenState extends State<LandingScreen> {
                     onTap: _currentPage == 1 ? null : existingUserPressed,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _currentPage == 1 ? Colors.grey[200] : Colors.transparent,
-                        borderRadius: BorderRadius.circular(16),
+                        color: _currentPage == 1 ? Colors.grey[200] : Colors.grey[800],
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                         child: Text(
-                          'Existing User',
+                          Localization.text('ExistingUser', category: 'landing'),
                           style: TextStyle(
                             color: _currentPage == 1 ? Colors.black : Colors.white,
                             fontSize: 18,
@@ -154,7 +155,9 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                 ],
               ),
+              SizedBox(height: 16),
               Expanded(
+                flex: 7,
                 child: PageView(
                   controller: _pageController,
                   children: [

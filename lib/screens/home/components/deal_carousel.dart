@@ -216,7 +216,8 @@ class _DealCarouselState extends State<DealCarousel> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: '\$${data[page].normalCost.toStringAsFixed(2)}',
+                                // text: '\$${data[page].normalCost.toStringAsFixed(2)}',
+                                text: Localization.currency(data[page].normalCost),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   decoration: TextDecoration.lineThrough,
@@ -227,7 +228,8 @@ class _DealCarouselState extends State<DealCarousel> {
                                 text: ' ',
                               ),
                               TextSpan(
-                                text: '\$${(data[page].normalCost * data[page].newCostFactor).toStringAsFixed(2)}',
+                                //text: '\$${(data[page].normalCost * data[page].newCostFactor).toStringAsFixed(2)}',
+                                text: Localization.currency(data[page].normalCost * data[page].newCostFactor),
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 56, 152, 185),
                                   fontWeight: FontWeight.bold,
@@ -267,51 +269,56 @@ class _DealCarouselState extends State<DealCarousel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          RichText(
-            text: TextSpan(
-              style: TextStyle(
-                color: Color.fromARGB(255, 100, 100, 100),
-                fontSize: 18,
-              ),
-              children: [
-                TextSpan(
-                  text: Localization.text('BuyUpTo', category: 'dealcarousel'),
+          Expanded(
+            flex: 2,
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  color: Color.fromARGB(255, 100, 100, 100),
+                  fontSize: 18,
                 ),
-                TextSpan(
-                  text: data[page].tokenCount.toString(),
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 56, 152, 185),
-                    fontWeight: FontWeight.bold,
+                children: [
+                  TextSpan(
+                    text: Localization.text('BuyUpTo', category: 'dealcarousel'),
                   ),
-                ),
-                TextSpan(
-                  text: Localization.text('Tokens', category: 'dealcarousel'),
-                ),
-              ],
+                  TextSpan(
+                    text: data[page].tokenCount.toString(),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 56, 152, 185),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                    text: Localization.text('Tokens', category: 'dealcarousel'),
+                  ),
+                ],
+              ),
             ),
           ),
-          GradientRaisedButton(
-            width: 150,
-            height: 35,
-            onPressed: () {},
-            child: Text(
-              Localization.text('GetThisDeal', category: 'dealcarousel'),
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 1,
+            child: GradientRaisedButton(
+              height: 35,
+              onPressed: () {},
+              child: Text(
+                Localization.text('GetThisDeal', category: 'dealcarousel'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            gradient: LinearGradient(
-              begin: Alignment(-0.02, -1),
-              end: Alignment(0.02, 1),
-              colors: [
-                Color.fromARGB(255, 15, 65, 131),
-                Color.fromARGB(255, 14, 57, 112),
-              ],
-              stops: [
-                0.69,
-                0.71,
-              ],
+              gradient: LinearGradient(
+                begin: Alignment(-0.02, -1),
+                end: Alignment(0.02, 1),
+                colors: [
+                  Color.fromARGB(255, 15, 65, 131),
+                  Color.fromARGB(255, 14, 57, 112),
+                ],
+                stops: [
+                  0.69,
+                  0.71,
+                ],
+              ),
             ),
           ),
         ],

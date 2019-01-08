@@ -18,6 +18,7 @@ typedef LocalizationListener = void Function(Locale newLocale);
 class Localization {
   static Locale _locale;
   static Locale get locale => _locale;
+  static double get currencyModifier => langMap[_locale]['currencyModifier'];
 
   static List<LocalizationListener> _listeners = [];
 
@@ -86,7 +87,7 @@ class Localization {
       lang = langMap[defaultLocale];
     }
 
-    final categoryGroup = lang['entries'][category];
+    final categoryGroup = lang['text'][category];
     if (categoryGroup == null) {
       print('[WARNING] Category `$category` doesn\'t exist in locale `$_locale`');
       return 'ERR_CATEGORY (${_locale}_$category)';
@@ -115,6 +116,11 @@ class Localization {
 
   static String number(num value) {
     return NumberFormat.decimalPattern(_locale.toString()).format(value);
+  }
+
+  static String currency(num value) {
+    value *= currencyModifier;
+    return NumberFormat.simpleCurrency(locale: _locale.toString()).format(value);
   }
 }
 
