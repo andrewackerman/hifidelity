@@ -23,74 +23,63 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext cxt) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 9,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  Localization.text('RegisterText', category: 'register'),
-                  style: TextStyle(
+    return Theme(
+      data: ThemeData(
+        hintColor: Colors.white,
+      ),
+      child: Column(
+        children: [
+          Expanded(flex: 1, child: Container()),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Text(
+              Localization.text('RegisterText', category: 'register'),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+            child: Text(
+              Localization.text('RegisterSubtext', category: 'register'),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w100,
+              ),
+            ),
+          ),
+          Expanded(flex: 1, child: Container()),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child:  TextField(
+                decoration: InputDecoration(
+                  hintText: Localization.text('Name', category: 'register'),
+                  hintStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  Localization.text('RegisterSubtext', category: 'register'),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w100,
-                  ),
+            ),
+          ),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child:  TextField(
+                decoration: InputDecoration(
+                  hintText: Localization.text('Email', category: 'register'),
                 ),
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 9,
-          child: Theme(
-            data: ThemeData(
-              hintColor: Colors.white,
-            ),
-            child: Column(
-              children: [
-                FractionallySizedBox(
-                  widthFactor: 0.8,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child:  TextField(
-                      decoration: InputDecoration(
-                        hintText: Localization.text('Name', category: 'register'),
-                      ),
-                    ),
-                  ),
-                ),
-                FractionallySizedBox(
-                  widthFactor: 0.8,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child:  TextField(
-                      decoration: InputDecoration(
-                        hintText: Localization.text('Email', category: 'register'),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Center(
+          Expanded(child: Container()),
+          Center(
             child: FractionallySizedBox(
               widthFactor: 0.6,
               child: RaisedButton(
@@ -99,9 +88,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-        ),
-        Expanded(flex: 7, child: Container()),
-      ],
+          Expanded(flex: 2, child: Container()),
+        ],
+      ),
     );
   }
 }
