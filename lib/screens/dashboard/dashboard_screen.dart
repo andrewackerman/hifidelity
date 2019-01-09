@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:hifidelity/components/gradient_raised_button.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/components/navigation_drawer.dart';
-import 'package:hifidelity/screens/home/components/deal_carousel.dart';
+import 'package:hifidelity/screens/dashboard/components/deal_carousel.dart';
 import 'package:hifidelity/services/localization/localization.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:hifidelity/components/gradient_progress_indicator.dart';
 
-class HomeScreen extends StatefulWidget {
+class DashboardScreen extends StatefulWidget {
   @override
-  State createState() => _HomeScreenState();
+  State createState() => _DashboardScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _DashboardScreenState extends State<DashboardScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override

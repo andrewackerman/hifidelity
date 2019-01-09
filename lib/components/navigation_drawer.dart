@@ -5,6 +5,24 @@ import 'package:hifidelity/services/localization/localization.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class NavigationDrawer extends StatelessWidget {
+  void dashboardPressed(BuildContext cxt) {
+    final nav = Navigator.of(cxt);
+    nav.pop();
+    nav.pushReplacementNamed('/dashboard');
+  }
+
+  void settingsPressed(BuildContext cxt) {
+    final nav = Navigator.of(cxt);
+    nav.pop();
+    nav.pushReplacementNamed('/settings');
+  }
+
+  void logOutPressed(BuildContext cxt) {
+    final nav = Navigator.of(cxt);
+    nav.pop();
+    nav.pushReplacementNamed('/');
+  }
+
   Widget buildOption(String text, VoidCallback callback) {
       return Padding(
         padding: EdgeInsets.only(left: 16, top: 12, bottom: 12),
@@ -67,10 +85,10 @@ class NavigationDrawer extends StatelessWidget {
                         ),
                       ),
                       Expanded(child: Container()),
-                      buildOption(Localization.text('Dashboard', category: 'overview'), () => print('Dashboard tapped.')),
-                      buildOption(Localization.text('Settings', category: 'overview'), () => print('Settings tapped.')),
+                      buildOption(Localization.text('Dashboard', category: 'overview'), () => dashboardPressed(cxt)),
+                      buildOption(Localization.text('Settings', category: 'overview'), () => settingsPressed(cxt)),
                       Expanded(child: Container()),
-                      buildOption(Localization.text('LogOut', category: 'overview'), () => Navigator.of(cxt).popUntil((r) => r.isFirst)),
+                      buildOption(Localization.text('LogOut', category: 'overview'), () => logOutPressed(cxt)),
                       Expanded(flex: 2, child: Container()),
                     ],
                   ),

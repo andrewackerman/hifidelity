@@ -36,14 +36,14 @@ class _LandingScreenState extends State<LandingScreen> {
     _scaffoldKey.currentState.openEndDrawer();
   }
 
-  newUserPressed() {
+  existingUserPressed() {
     setState(() {
       _currentPage = 0;
       _pageController.jumpToPage(0);
     });
   }
 
-  existingUserPressed() {
+  newUserPressed() {
     setState(() {
       _currentPage = 1;
       _pageController.jumpToPage(1);
@@ -112,7 +112,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: _currentPage == 0 ? null : newUserPressed,
+                    onTap: _currentPage == 0 ? null : existingUserPressed,
                     child: Container(
                       decoration: BoxDecoration(
                         color: _currentPage == 0 ? Colors.grey[200] : Colors.grey[800],
@@ -120,7 +120,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                         child: Text(
-                          Localization.text('NewUser', category: 'landing'),
+                          Localization.text('ExistingUser', category: 'landing'),
                           style: TextStyle(
                             color: _currentPage == 0 ? Colors.black : Colors.white,
                             fontSize: 18,
@@ -133,7 +133,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: _currentPage == 1 ? null : existingUserPressed,
+                    onTap: _currentPage == 1 ? null : newUserPressed,
                     child: Container(
                       decoration: BoxDecoration(
                         color: _currentPage == 1 ? Colors.grey[200] : Colors.grey[800],
@@ -141,7 +141,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                         child: Text(
-                          Localization.text('ExistingUser', category: 'landing'),
+                          Localization.text('NewUser', category: 'landing'),
                           style: TextStyle(
                             color: _currentPage == 1 ? Colors.black : Colors.white,
                             fontSize: 18,
@@ -161,8 +161,8 @@ class _LandingScreenState extends State<LandingScreen> {
                 child: PageView(
                   controller: _pageController,
                   children: [
-                    RegisterPage(),
                     LoginPage(),
+                    RegisterPage(),
                   ],
                 ),
               ),

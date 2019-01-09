@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   _loginButtonPressed(BuildContext cxt) {
-    Navigator.of(cxt).pushNamed('/home');
+    Navigator.of(cxt).pushReplacementNamed('/dashboard');
   }
 
   @override
