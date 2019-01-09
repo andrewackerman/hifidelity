@@ -195,7 +195,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget buildListViewRow({ String text, VoidCallback callback }) {
+  Widget buildListViewActionRow({ String text, VoidCallback callback }) {
     var widget = padListItem(
       child: Row(
         children: [
@@ -255,7 +255,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     wallets.add(
-      buildListViewRow(
+      buildListViewActionRow(
         text: Localization.text('Manage', category: 'settings'),
         callback: () => showAddWalletAddressDialog(cxt),
       ),
@@ -279,7 +279,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       divider,
-      buildListViewRow(
+      buildListViewActionRow(
         text: Localization.text('Manage', category: 'settings'),
         callback: () => showManagePersonalInfoDialog(cxt),
       ),
@@ -289,7 +289,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   List<Widget> buildLanguageSetting(BuildContext cxt) {
     final language = Localization.getCurrentLanguage();
     return [
-      buildListViewRow(
+      buildListViewActionRow(
         text: language.name,
         callback: () => _drawerLanguageButtonClicked(cxt),
       ),
@@ -298,11 +298,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List<Widget> buildChangePassword(BuildContext cxt) {
     return [
-      buildListViewRow(
+      buildListViewActionRow(
         text: Localization.text('ChangePassword', category: 'settings'),
         callback: () => showChangePasswordDialog(cxt),
       ),
     ];
+  }
+
+  Widget buildSettingsSectionHeader(String text) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16, top: 16, bottom: 6),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey[800],
+        ),
+      ),
+    );
+  }
+
+  Widget buildSettingsFloatingSection({Widget child}) {
+    return FractionallySizedBox(
+      widthFactor: 0.93,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 0.5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black54,
+              offset: Offset(2, 2),
+              blurRadius: 2,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: child,
+      ),
+    );
   }
 
   @override
@@ -334,97 +369,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: Colors.grey[300],
         child: ListView(
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16, top: 16, bottom: 6),
-              child: Text(
-                Localization.text('Wallets', category: 'settings'),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
+            buildSettingsSectionHeader(Localization.text('Wallets', category: 'settings')),
+            buildSettingsFloatingSection(
+              child: Column(
+                children: buildWalletList(cxt),
               ),
             ),
-            FractionallySizedBox(
-              widthFactor: 0.93,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 0.5),
-                ),
-                child: Column(
-                  children: buildWalletList(cxt),
-                ),
+            buildSettingsSectionHeader(Localization.text('PersonalInfo', category: 'settings')),
+            buildSettingsFloatingSection(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: buildPersonalInfo(cxt),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 16, top: 16, bottom: 6),
-              child: Text(
-                Localization.text('PersonalInfo', category: 'settings'),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
+            buildSettingsSectionHeader(Localization.text('Language', category: 'settings')),
+            buildSettingsFloatingSection(
+              child: Column(
+                children: buildLanguageSetting(cxt),
               ),
             ),
-            FractionallySizedBox(
-              widthFactor: 0.93,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 0.5),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: buildPersonalInfo(cxt),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 16, top: 16, bottom: 6),
-              child: Text(
-                Localization.text('Language', category: 'settings'),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
-              ),
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.93,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 0.5),
-                ),
-                child: Column(
-                  children: buildLanguageSetting(cxt),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 16, top: 16, bottom: 6),
-              child: Text(
-                Localization.text('Password', category: 'settings'),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
-              ),
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.93,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 0.5),
-                ),
-                child: Column(
-                  children: buildChangePassword(cxt),
-                ),
+            buildSettingsSectionHeader(Localization.text('Password', category: 'settings')),
+            buildSettingsFloatingSection(
+              child: Column(
+                children: buildChangePassword(cxt),
               ),
             ),
           ],
