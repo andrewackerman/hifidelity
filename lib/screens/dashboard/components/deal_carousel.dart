@@ -24,7 +24,7 @@ class _DealCarouselState extends State<DealCarousel> {
       ),
       normalCost: 1.0,
       newCostFactor: 0.2,
-      tokenCount: 140,
+      tokenCount: 12500,
       timeRemaining: TimeSpan.fromTime(days: 2, hours: 16, minutes: 1),
     ),
     DealData(
@@ -38,7 +38,7 @@ class _DealCarouselState extends State<DealCarousel> {
       ),
       normalCost: 1.0,
       newCostFactor: 0.35,
-      tokenCount: 75,
+      tokenCount: 7500,
       timeRemaining: TimeSpan.fromTime(days: 7, hours: 0, minutes: 55),
     ),
     DealData(
@@ -52,7 +52,7 @@ class _DealCarouselState extends State<DealCarousel> {
       ),
       normalCost: 1.0,
       newCostFactor: 0.5,
-      tokenCount: 250,
+      tokenCount: 15000,
       timeRemaining: TimeSpan.fromTime(days: 39, hours: 4, minutes: 21),
     ),
   ];
@@ -234,7 +234,6 @@ class _DealCarouselState extends State<DealCarousel> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                // text: '\$${data[page].normalCost.toStringAsFixed(2)}',
                                 text: Localization.currency(data[page].normalCost),
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -246,7 +245,6 @@ class _DealCarouselState extends State<DealCarousel> {
                                 text: ' ',
                               ),
                               TextSpan(
-                                //text: '\$${(data[page].normalCost * data[page].newCostFactor).toStringAsFixed(2)}',
                                 text: Localization.currency(data[page].normalCost * data[page].newCostFactor),
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 56, 152, 185),
@@ -288,8 +286,9 @@ class _DealCarouselState extends State<DealCarousel> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 2,
+            flex: 5,
             child: RichText(
+              textAlign: TextAlign.center,
               text: TextSpan(
                 style: TextStyle(
                   color: Color.fromARGB(255, 100, 100, 100),
@@ -298,6 +297,9 @@ class _DealCarouselState extends State<DealCarousel> {
                 children: [
                   TextSpan(
                     text: Localization.text('BuyUpTo', category: 'dealcarousel'),
+                  ),
+                  TextSpan(
+                    text: '\n',
                   ),
                   TextSpan(
                     text: data[page].tokenCount.toString(),
@@ -314,7 +316,7 @@ class _DealCarouselState extends State<DealCarousel> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 4,
             child: GradientRaisedButton(
               height: 35,
               onPressed: () {},

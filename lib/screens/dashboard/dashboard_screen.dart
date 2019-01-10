@@ -33,10 +33,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {});
   }
 
-  // void _drawerMenuButtonClicked(BuildContext cxt) {
-
-  // }
-
   void _drawerLanguageButtonClicked(BuildContext cxt) {
     _scaffoldKey.currentState.openEndDrawer();
   }
@@ -62,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               '7000',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 28,
                 color: Color.fromARGB(255, 16, 65, 131),
               ),
             ),
@@ -73,7 +69,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Localization.text('TokensOwned', category: 'overview'),
               style: TextStyle(
                 color: Color.fromARGB(255, 100, 100, 100),
-                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
             ),
           ),
@@ -147,38 +144,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: GradientProgressIndicator(value: 0.75),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 12, right: 12, top: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GradientRaisedButton(
-                  width: 160,
-                  height: 35,
-                  onPressed: () {},
-                  child: Text(
-                    Localization.text('SeeAllBenefits', category: 'overview'),
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 16, 65, 131),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment(-0.02, -1),
-                    end: Alignment(0.02, 1),
-                    colors: [
-                      Colors.white,
-                      Color.fromARGB(255, 212, 223, 236),
-                    ],
-                    stops: [
-                      0.69,
-                      0.71,
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -190,21 +155,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 2,
+          Padding(
+            padding: EdgeInsets.all(16),
             child: Center(
               child: Text(
                 Localization.text('CurrentDeals', category: 'overview'),
                 style: TextStyle(
                   color: Color.fromARGB(255, 15, 65, 131),
-                  fontSize: 18,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
           Expanded(
-            flex: 15,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -248,16 +212,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: tokensOwnedBar(cxt),
             ),
             Expanded(
-              flex: 8,
+              flex: 5,
               child: tokenProgressBar(cxt),
             ),
             Expanded(
               flex: 26,
               child: dealCarouselBar(cxt),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(),
             ),
           ],
         ),

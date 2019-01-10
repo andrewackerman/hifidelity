@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hifidelity/screens/dashboard/dashboard_screen.dart';
 import 'package:hifidelity/screens/landing/landing_screen.dart';
 import 'package:hifidelity/screens/settings/settings_screen.dart';
@@ -10,11 +11,18 @@ class AppScreen extends StatefulWidget {
 
 class _AppScreenState extends State<AppScreen> {
   @override
+  void initState() {
+      super.initState();
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
+  @override
   Widget build(BuildContext cxt) {
     return MaterialApp(
-      // initialRoute: '/home',
+      debugShowCheckedModeBanner: false,
       routes: {
-        // '/': (cxt) => null,
         '/': (cxt) => LandingScreen(),
         '/dashboard': (cxt) => DashboardScreen(),
         '/settings': (cxt) => SettingsScreen(),
