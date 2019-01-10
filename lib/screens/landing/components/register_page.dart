@@ -64,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white,
                   ),
                 ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -75,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: Localization.text('Email', category: 'register'),
                 ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
