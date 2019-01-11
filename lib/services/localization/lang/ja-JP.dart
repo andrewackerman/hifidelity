@@ -57,7 +57,7 @@ const lang = <String, dynamic> {
       'OnTheDollar': '特別販売価格',
       'BuyUpTo': '購入可能最大数',
       'Tokens': 'トークン',
-      'GetThisDeal': '購入する',
+      'GetThisDeal': '詳細・購入はこちら',
     },
     'settings': {
       'Wallets': 'ウォレット',

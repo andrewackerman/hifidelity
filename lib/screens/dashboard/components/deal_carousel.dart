@@ -19,7 +19,7 @@ class _DealCarouselState extends State<DealCarousel> {
         tag: 'FeatherCoin',
         translations: {
           'en-US': 'Feather Coin',
-          'ja-JP': '羽コイン',
+          'ja-JP': 'フェザーコイン',
         },
       ),
       normalCost: 1.0,

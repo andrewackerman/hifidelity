@@ -51,7 +51,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: Localization.getCurrentLanguage().code == 'ja-JP'
+        ? [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              Localization.text('TokensOwned', category: 'overview'),
+              style: TextStyle(
+                color: Color.fromARGB(255, 100, 100, 100),
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              '7000',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+                color: Color.fromARGB(255, 16, 65, 131),
+              ),
+            ),
+          ),
+        ]
+        : [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
             child: Text(
