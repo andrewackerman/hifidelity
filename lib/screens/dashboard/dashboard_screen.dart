@@ -1,11 +1,8 @@
-import 'dart:math' as Math;
-
 import 'package:flutter/material.dart';
-import 'package:hifidelity/components/gradient_raised_button.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/components/navigation_drawer.dart';
 import 'package:hifidelity/screens/dashboard/components/deal_carousel.dart';
-import 'package:hifidelity/services/localization/localization.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:hifidelity/components/gradient_progress_indicator.dart';
 
@@ -16,22 +13,6 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
-  @override
-  void initState() {
-    Localization.addListener(localeChanged);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    Localization.removeListener(localeChanged);
-    super.dispose();
-  }
-
-  void localeChanged(Locale newLocale) {
-    setState(() {});
-  }
 
   void _drawerLanguageButtonClicked(BuildContext cxt) {
     _scaffoldKey.currentState.openEndDrawer();
@@ -51,12 +32,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: Localization.getCurrentLanguage().code == 'ja-JP'
+        children: AppInheritedWidget.of(cxt).language.code == 'ja-JP'
         ? [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
             child: Text(
-              Localization.text('TokensOwned', category: 'overview'),
+              AppInheritedWidget.of(cxt).text('TokensOwned', category: 'overview'),
               style: TextStyle(
                 color: Color.fromARGB(255, 100, 100, 100),
                 fontWeight: FontWeight.bold,
@@ -91,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
             child: Text(
-              Localization.text('TokensOwned', category: 'overview'),
+              AppInheritedWidget.of(cxt).text('TokensOwned', category: 'overview'),
               style: TextStyle(
                 color: Color.fromARGB(255, 100, 100, 100),
                 fontWeight: FontWeight.bold,
@@ -134,7 +115,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  Localization.text('Level4', category: 'overview'),
+                  AppInheritedWidget.of(cxt).text('Level4', category: 'overview'),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -149,16 +130,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       decoration: TextDecoration.none,
                       fontWeight: FontWeight.normal,
                     ),
-                    children: Localization.getCurrentLanguage().code == 'ja-JP'
+                    children: AppInheritedWidget.of(cxt).language.code == 'ja-JP'
                     ? [
-                      TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
+                      TextSpan(text: AppInheritedWidget.of(cxt).text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: AppInheritedWidget.of(cxt).text('TokensUntil', category: 'overview')),
                       TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
                     ]
                     : [
                       TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
-                      TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: AppInheritedWidget.of(cxt).text('TokensUntil', category: 'overview')),
+                      TextSpan(text: AppInheritedWidget.of(cxt).text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -184,7 +165,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: EdgeInsets.all(16),
             child: Center(
               child: Text(
-                Localization.text('CurrentDeals', category: 'overview'),
+                AppInheritedWidget.of(cxt).text('CurrentDeals', category: 'overview'),
                 style: TextStyle(
                   color: Color.fromARGB(255, 15, 65, 131),
                   fontSize: 24,
@@ -223,7 +204,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onTap: () => _drawerLanguageButtonClicked(cxt),
             child: Row(
               children: [
-                Text(Localization.getCurrentLanguage().displayCode),
+                Text(AppInheritedWidget.of(cxt).language.displayCode),
                 Padding(
                   padding: EdgeInsets.only(left: 8, right: 12),
                   child: Icon(MdiIcons.earth, size: 32),

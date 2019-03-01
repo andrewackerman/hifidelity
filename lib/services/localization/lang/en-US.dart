@@ -25,6 +25,7 @@ const lang = <String, dynamic> {
     'register': {
       'Name': 'Name',
       'Email': 'Email',
+      'DontHaveLogin': 'Don\'t have a login?',
       'Register': 'REGISTER',
       'RegisterText': 'Register your account',
       'RegisterSubtext': 'Please fill out the info below to start.',

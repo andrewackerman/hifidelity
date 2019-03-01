@@ -1,10 +1,10 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/gradient_raised_button.dart';
 import 'package:hifidelity/model/timespan.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:hifidelity/services/localization/localization.dart';
 
 class DealCarousel extends StatefulWidget {
   @override
@@ -82,7 +82,7 @@ class _DealCarouselState extends State<DealCarousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                Localization.text('TimeRemaining', category: 'dealcarousel'),
+                AppInheritedWidget.of(cxt).text('TimeRemaining', category: 'dealcarousel'),
                 style: TextStyle(
                   fontSize: 10,
                   color: Color.fromARGB(255, 131, 131, 131),
@@ -167,7 +167,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         child: Image.asset(data[page].icon),
                       ),
                       Text(
-                        data[page].name[Localization.getCurrentLanguage().code],
+                        data[page].name[AppInheritedWidget.of(cxt).language.code],
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -179,7 +179,7 @@ class _DealCarouselState extends State<DealCarousel> {
                   flex: 3,
                   child: Center(
                     child: AutoSizeText(
-                      Localization.text('AtA', category: 'dealcarousel'),
+                      AppInheritedWidget.of(cxt).text('AtA', category: 'dealcarousel'),
                       minFontSize: 1,
                       maxFontSize: 999,
                       style: TextStyle(
@@ -224,7 +224,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         }
                       ),
                       AutoSizeText(
-                        Localization.text('Discount', category: 'dealcarousel'),
+                        AppInheritedWidget.of(cxt).text('Discount', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
@@ -234,7 +234,7 @@ class _DealCarouselState extends State<DealCarousel> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: Localization.currency(data[page].normalCost),
+                                text: AppInheritedWidget.of(cxt).currency(data[page].normalCost),
                                 style: TextStyle(
                                   color: Colors.grey,
                                   decoration: TextDecoration.lineThrough,
@@ -245,7 +245,7 @@ class _DealCarouselState extends State<DealCarousel> {
                                 text: ' ',
                               ),
                               TextSpan(
-                                text: Localization.currency(data[page].normalCost * data[page].newCostFactor),
+                                text: AppInheritedWidget.of(cxt).currency(data[page].normalCost * data[page].newCostFactor),
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 56, 152, 185),
                                   fontWeight: FontWeight.bold,
@@ -257,7 +257,7 @@ class _DealCarouselState extends State<DealCarousel> {
                         ),
                       ),
                       AutoSizeText(
-                        Localization.text('OnTheDollar', category: 'dealcarousel'),
+                        AppInheritedWidget.of(cxt).text('OnTheDollar', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
@@ -296,7 +296,7 @@ class _DealCarouselState extends State<DealCarousel> {
                 ),
                 children: [
                   TextSpan(
-                    text: Localization.text('BuyUpTo', category: 'dealcarousel'),
+                    text: AppInheritedWidget.of(cxt).text('BuyUpTo', category: 'dealcarousel'),
                   ),
                   TextSpan(
                     text: '\n',
@@ -309,7 +309,7 @@ class _DealCarouselState extends State<DealCarousel> {
                     ),
                   ),
                   TextSpan(
-                    text: Localization.text('Tokens', category: 'dealcarousel'),
+                    text: AppInheritedWidget.of(cxt).text('Tokens', category: 'dealcarousel'),
                   ),
                 ],
               ),
@@ -321,7 +321,7 @@ class _DealCarouselState extends State<DealCarousel> {
               height: 35,
               onPressed: () {},
               child: Text(
-                Localization.text('GetThisDeal', category: 'dealcarousel'),
+                AppInheritedWidget.of(cxt).text('GetThisDeal', category: 'dealcarousel'),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

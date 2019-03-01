@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/components/navigation_drawer.dart';
-import 'package:hifidelity/services/localization/localization.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -27,22 +27,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
   ];
 
-  @override
-  void initState() {
-    Localization.addListener(localeChanged);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    Localization.removeListener(localeChanged);
-    super.dispose();
-  }
-
-  void localeChanged(Locale newLocale) {
-    setState(() {});
-  }
-
   void _drawerLanguageButtonClicked(BuildContext cxt) {
     _scaffoldKey.currentState.openEndDrawer();
   }
@@ -52,15 +36,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void showRemoveWalletAddressDialog(BuildContext cxt) {
     showDialog(context: cxt, builder: (BuildContext context) {
       return AlertDialog(
-        content: Text(Localization.text('WalletDeleteAreYouSure', category: 'settings')),
+        content: Text(AppInheritedWidget.of(cxt).text('WalletDeleteAreYouSure', category: 'settings')),
         actions: [
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('NoUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('NoUpper')),
           ),
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('YesUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('YesUpper')),
           ),
         ],
       );
@@ -78,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             TextField(
               decoration: InputDecoration(
-                hintText: Localization.text('WalletAddress', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('WalletAddress', category: 'settings'),
               ),
             ),
           ],
@@ -86,11 +70,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('CancelUpper')),
           ),
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('Add', category: 'settings')),
+            child: Text(AppInheritedWidget.of(cxt).text('Add', category: 'settings')),
           ),
         ],
       );
@@ -114,31 +98,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                hintText: Localization.text('Name', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('Name', category: 'settings'),
               ),
             ),
             TextField(
               controller: addressController,
               decoration: InputDecoration(
-                hintText: Localization.text('Address', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('Address', category: 'settings'),
               ),
             ),
             TextField(
               controller: cityController,
               decoration: InputDecoration(
-                hintText: Localization.text('CityStateZip', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('CityStateZip', category: 'settings'),
               ),
             ),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                hintText: Localization.text('Email', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('Email', category: 'settings'),
               ),
             ),
             TextField(
               controller: phoneController,
               decoration: InputDecoration(
-                hintText: Localization.text('PhoneNumber', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('PhoneNumber', category: 'settings'),
               ),
             ),
           ],
@@ -146,11 +130,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('CancelUpper')),
           ),
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('SaveUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('SaveUpper')),
           ),
         ],
       );
@@ -169,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             TextField(
               obscureText: true,
               decoration: InputDecoration(
-                hintText: Localization.text('Password', category: 'settings'),
+                hintText: AppInheritedWidget.of(cxt).text('Password', category: 'settings'),
               ),
             ),
           ],
@@ -177,11 +161,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('CancelUpper')),
           ),
           FlatButton(
             onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('SaveUpper')),
+            child: Text(AppInheritedWidget.of(cxt).text('SaveUpper')),
           ),
         ],
       );
@@ -256,7 +240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     wallets.add(
       buildListViewActionRow(
-        text: Localization.text('Manage', category: 'settings'),
+        text: AppInheritedWidget.of(cxt).text('Manage', category: 'settings'),
         callback: () => showAddWalletAddressDialog(cxt),
       ),
     );
@@ -280,14 +264,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       divider,
       buildListViewActionRow(
-        text: Localization.text('Manage', category: 'settings'),
+        text: AppInheritedWidget.of(cxt).text('Manage', category: 'settings'),
         callback: () => showManagePersonalInfoDialog(cxt),
       ),
     ];
   }
 
   List<Widget> buildLanguageSetting(BuildContext cxt) {
-    final language = Localization.getCurrentLanguage();
+    final language = AppInheritedWidget.of(cxt).language;
     return [
       buildListViewActionRow(
         text: language.name,
@@ -299,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   List<Widget> buildChangePassword(BuildContext cxt) {
     return [
       buildListViewActionRow(
-        text: Localization.text('ChangePassword', category: 'settings'),
+        text: AppInheritedWidget.of(cxt).text('ChangePassword', category: 'settings'),
         callback: () => showChangePasswordDialog(cxt),
       ),
     ];
@@ -355,7 +339,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () => _drawerLanguageButtonClicked(cxt),
             child: Row(
               children: [
-                Text(Localization.getCurrentLanguage().displayCode),
+                Text(AppInheritedWidget.of(cxt).language.displayCode),
                 Padding(
                   padding: EdgeInsets.only(left: 8, right: 12),
                   child: Icon(MdiIcons.earth, size: 32),
@@ -369,26 +353,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: Colors.grey[300],
         child: ListView(
           children: [
-            buildSettingsSectionHeader(Localization.text('Wallets', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt).text('Wallets', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 children: buildWalletList(cxt),
               ),
             ),
-            buildSettingsSectionHeader(Localization.text('PersonalInfo', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt).text('PersonalInfo', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: buildPersonalInfo(cxt),
               ),
             ),
-            buildSettingsSectionHeader(Localization.text('Language', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt).text('Language', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 children: buildLanguageSetting(cxt),
               ),
             ),
-            buildSettingsSectionHeader(Localization.text('Password', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt).text('Password', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 children: buildChangePassword(cxt),

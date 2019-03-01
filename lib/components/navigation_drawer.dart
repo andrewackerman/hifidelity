@@ -1,20 +1,20 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
-import 'package:hifidelity/services/localization/localization.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class NavigationDrawer extends StatelessWidget {
   void dashboardPressed(BuildContext cxt) {
     final nav = Navigator.of(cxt);
     nav.pop();
-    nav.pushReplacementNamed('/dashboard');
+    nav.pushReplacementNamed('dashboard');
   }
 
   void settingsPressed(BuildContext cxt) {
     final nav = Navigator.of(cxt);
     nav.pop();
-    nav.pushReplacementNamed('/settings');
+    nav.pushReplacementNamed('settings');
   }
 
   void logOutPressed(BuildContext cxt) {
@@ -73,7 +73,7 @@ class NavigationDrawer extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12),
                                 child: Text(
-                                  Localization.text('Close'),
+                                  AppInheritedWidget.of(cxt).text('Close'),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -85,10 +85,10 @@ class NavigationDrawer extends StatelessWidget {
                         ),
                       ),
                       Expanded(child: Container()),
-                      buildOption(Localization.text('Dashboard', category: 'overview'), () => dashboardPressed(cxt)),
-                      buildOption(Localization.text('Settings', category: 'overview'), () => settingsPressed(cxt)),
+                      buildOption(AppInheritedWidget.of(cxt).text('Dashboard', category: 'overview'), () => dashboardPressed(cxt)),
+                      buildOption(AppInheritedWidget.of(cxt).text('Settings', category: 'overview'), () => settingsPressed(cxt)),
                       Expanded(child: Container()),
-                      buildOption(Localization.text('LogOut', category: 'overview'), () => logOutPressed(cxt)),
+                      buildOption(AppInheritedWidget.of(cxt).text('LogOut', category: 'overview'), () => logOutPressed(cxt)),
                       Expanded(flex: 2, child: Container()),
                     ],
                   ),
