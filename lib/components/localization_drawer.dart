@@ -6,7 +6,6 @@ import 'package:hifidelity/services/localization/localization_service.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class LocalizationDrawer extends StatelessWidget {
-
   _languageOptionPressed(BuildContext cxt, Language lang) {
     // print('${lang.name} pressed.');
     AppInheritedWidget.of(cxt).languageCode = lang.key;
@@ -53,10 +52,11 @@ class LocalizationDrawer extends StatelessWidget {
     }
 
     final languages = AppInheritedWidget.of(cxt).getLanguages();
-    final options = <Widget> [];
+    final options = <Widget>[];
     for (var lang in languages) {
       // options.add(buildOption(lang['name'], (lang['code'] as String).toUpperCase(), () => print('${lang['name']} tapped.')));
-      options.add(buildOption(lang.name, lang.code, () => _languageOptionPressed(cxt, lang)));
+      options.add(buildOption(
+          lang.name, lang.code, () => _languageOptionPressed(cxt, lang)));
     }
 
     return Drawer(
@@ -114,9 +114,8 @@ class LocalizationDrawer extends StatelessWidget {
                       ),
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: options
-                    ),
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: options),
                   ],
                 ),
               ),

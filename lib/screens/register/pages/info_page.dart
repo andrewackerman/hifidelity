@@ -7,7 +7,6 @@ class InfoPage extends StatefulWidget {
 }
 
 class InfoPageState extends State<InfoPage> {
-
   void continueButtonPressed() {
     Navigator.of(context).pushNamed('register/password');
   }
@@ -77,7 +76,7 @@ class InfoPageState extends State<InfoPage> {
           widthFactor: 0.8,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            child:  TextField(
+            child: TextField(
               decoration: InputDecoration(
                 hintText: 'Address',
               ),
@@ -138,7 +137,7 @@ class InfoPageState extends State<InfoPage> {
           widthFactor: 0.8,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            child:  TextField(
+            child: TextField(
               decoration: InputDecoration(
                 hintText: 'Email',
               ),
@@ -151,7 +150,7 @@ class InfoPageState extends State<InfoPage> {
           widthFactor: 0.8,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            child:  TextField(
+            child: TextField(
               decoration: InputDecoration(
                 hintText: 'Phone Number',
               ),

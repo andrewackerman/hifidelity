@@ -1,3 +1,5 @@
+// TODO: Convert to use bloc pattern
+
 import 'dart:ui';
 
 import 'package:intl/date_symbol_data_local.dart' as Intl;
@@ -14,7 +16,6 @@ final langMap = {
 };
 
 class LocalizationService {
-
   double get currencyModifier => langMap[languageCode]['currencyModifier'];
 
   String _oldLanguageCode;
@@ -32,23 +33,23 @@ class LocalizationService {
 
   Iterable<Language> getSupportedLanguages() {
     return langMap.entries.map((e) => Language(
-      key: e.key,
-      name: e.value['languageDisplayName'], 
-      code: e.value['languageCode'], 
-      displayCode: e.value['languageDisplayCode'], 
-    ));
+          key: e.key,
+          name: e.value['languageDisplayName'],
+          code: e.value['languageCode'],
+          displayCode: e.value['languageDisplayCode'],
+        ));
   }
 
   Language getCurrentLanguage() {
     return Language(
       key: _languageCode,
-      name: langMap[_languageCode]['languageDisplayName'], 
+      name: langMap[_languageCode]['languageDisplayName'],
       code: langMap[_languageCode]['languageCode'],
       displayCode: langMap[_languageCode]['languageDisplayCode'],
     );
   }
 
-  String text(String label, { String category }) {
+  String text(String label, {String category}) {
     assert(label != null);
 
     var lang = langMap[_languageCode];
@@ -59,13 +60,15 @@ class LocalizationService {
 
     final categoryGroup = lang['text'][category];
     if (categoryGroup == null) {
-      print('[WARNING] Category `$category` doesn\'t exist in locale `$_languageCode`');
+      print(
+          '[WARNING] Category `$category` doesn\'t exist in locale `$_languageCode`');
       return 'ERR_CATEGORY (${_languageCode}_$category)';
     }
 
     final text = categoryGroup[label];
     if (text == null) {
-      print('[WARNING] Label `$label` doesn\'t exist in category `$category` in locale `$_languageCode`');
+      print(
+          '[WARNING] Label `$label` doesn\'t exist in category `$category` in locale `$_languageCode`');
       return 'ERR_LABEL (${_languageCode}_${category}_$label)';
     }
 

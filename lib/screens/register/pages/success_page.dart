@@ -12,7 +12,6 @@ class SuccessPage extends StatefulWidget {
 }
 
 class SuccessPageState extends State<SuccessPage> {
-  
   void continueButtonPressed() {
     widget.parentKey.currentState.pop();
   }

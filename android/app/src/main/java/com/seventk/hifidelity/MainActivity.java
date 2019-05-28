@@ -1,4 +1,4 @@
-package com.example.hifidelity;
+package com.seventk.hifidelity;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

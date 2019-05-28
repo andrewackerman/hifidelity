@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hifidelity/blocs_test/register_bloc/bloc.dart';
+import 'package:hifidelity/blocs_test/user_repository.dart';
 import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/screens/register/pages/info_page.dart';
@@ -10,7 +13,17 @@ import 'package:hifidelity/screens/register/pages/wallet_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({ GlobalKey key }) : super(key: key);
+  final UserRepository _userRepository;
+  final Widget _usedScreen;
+
+  RegisterScreen(
+      {Key key,
+      @required UserRepository userRepository,
+      @required Widget usedScreen})
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        _usedScreen = usedScreen,
+        super(key: key);
 
   @override
   State createState() => RegisterScreenState();
@@ -18,6 +31,15 @@ class RegisterScreen extends StatefulWidget {
 
 class RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  RegisterBloc _registerBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _registerBloc = RegisterBloc(
+      userRepository: widget._userRepository,
+    );
+  }
 
   void pop() {
     Navigator.of(context).pushReplacementNamed('/');
@@ -26,7 +48,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   void drawerLanguageButtonPressed() {
     _scaffoldKey.currentState.openEndDrawer();
   }
-  
+
   Widget buildLanguageButton(BuildContext cxt) {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -40,7 +62,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               child: Row(
                 children: [
                   Text(
-                    AppInheritedWidget.of(cxt).language.displayCode, 
+                    AppInheritedWidget.of(cxt).language.displayCode,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w300,
@@ -67,57 +89,38 @@ class RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: LocalizationDrawer(),
-      body: Ink(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background_2.png'),
-            fit: BoxFit.cover,
+      body: BlocProvider<RegisterBloc>(
+        bloc: _registerBloc,
+        child: Ink(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background_2.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              buildLanguageButton(cxt),
-              Expanded(
-                child: Theme(
-                  data: ThemeData(
-                    hintColor: Colors.white,
-                  ),
-                  child: Navigator(
-                    initialRoute: 'register/start',
-                    onGenerateRoute: (RouteSettings settings) {
-                      WidgetBuilder builder;
-                      switch (settings.name) {
-                        case 'register/start':
-                          builder = (_) => StartPage();
-                          break;
-                        case 'register/info':
-                          builder = (_) => InfoPage();
-                          break;
-                        case 'register/verify':
-                          builder = (_) => VerifyPage();
-                          break;
-                        case 'register/password':
-                          builder = (_) => PasswordPage();
-                          break;
-                        case 'register/wallet':
-                          builder = (_) => WalletPage();
-                          break;
-                        case 'register/success':
-                          builder = (_) => SuccessPage(widget.key);
-                          break;
-                        default:
-                          throw Exception('Invalid route: ${settings.name}');
-                      }
-                      return MaterialPageRoute(builder: builder, settings: settings);
-                    },
+          child: SafeArea(
+            child: Column(
+              children: [
+                buildLanguageButton(cxt),
+                Expanded(
+                  child: Theme(
+                    data: ThemeData(
+                      hintColor: Colors.white,
+                    ),
+                    child: widget._usedScreen,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _registerBloc.dispose();
+    super.dispose();
   }
 }
