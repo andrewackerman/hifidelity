@@ -22,7 +22,7 @@ class GradientRaisedButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        gradient: gradient, 
+        gradient: gradient,
         borderRadius: BorderRadius.circular(3),
         boxShadow: [
           BoxShadow(

@@ -1,8 +1,9 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hifidelity/app.dart';
-import 'package:hifidelity/services/localization/localization.dart';
+import 'package:hifidelity/blocs_test/simple_bloc_delegate.dart';
 
 void main() {
-  Localization.setLocale(Locale('en', 'US'));
+  BlocSupervisor().delegate = SimpleBlocDelegate();
   runApp(AppScreen());
 }

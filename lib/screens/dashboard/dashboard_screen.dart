@@ -1,11 +1,10 @@
-import 'dart:math' as Math;
-
 import 'package:flutter/material.dart';
-import 'package:hifidelity/components/gradient_raised_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hifidelity/blocs_test/stats_bloc/bloc.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/components/navigation_drawer.dart';
 import 'package:hifidelity/screens/dashboard/components/deal_carousel.dart';
-import 'package:hifidelity/services/localization/localization.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:hifidelity/components/gradient_progress_indicator.dart';
 
@@ -17,20 +16,12 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
+  StatsBloc _statsBloc;
+
   @override
   void initState() {
-    Localization.addListener(localeChanged);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    Localization.removeListener(localeChanged);
-    super.dispose();
-  }
-
-  void localeChanged(Locale newLocale) {
-    setState(() {});
+    _statsBloc = BlocProvider.of<StatsBloc>(context);
   }
 
   void _drawerLanguageButtonClicked(BuildContext cxt) {
@@ -49,58 +40,70 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: Localization.getCurrentLanguage().code == 'ja-JP'
-        ? [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              Localization.text('TokensOwned', category: 'overview'),
-              style: TextStyle(
-                color: Color.fromARGB(255, 100, 100, 100),
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              '7000',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 28,
-                color: Color.fromARGB(255, 16, 65, 131),
-              ),
-            ),
-          ),
-        ]
-        : [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              '7000',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 28,
-                color: Color.fromARGB(255, 16, 65, 131),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Text(
-              Localization.text('TokensOwned', category: 'overview'),
-              style: TextStyle(
-                color: Color.fromARGB(255, 100, 100, 100),
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ),
-        ],
-      ),
+      child: BlocBuilder(
+        bloc: _statsBloc,
+        builder: (BuildContext context, StatsState state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: AppInheritedWidget.of(cxt).language.code == 'ja-JP'
+              ? [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    AppInheritedWidget.of(cxt)
+                        .text('TokensOwned', category: 'overview'),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 100, 100, 100),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    (state is StatsLoaded)
+                        ? state.totalTokens.toString()
+                        : AppInheritedWidget.of(cxt)
+                          .text('Loading', category: 'overview'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 16, 65, 131),
+                    ),
+                  ),
+                ),
+              ]
+              : [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    (state is StatsLoaded)
+                      ? state.totalTokens.toString()
+                      : AppInheritedWidget.of(cxt)
+                        .text('Loading', category: 'overview'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 16, 65, 131),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    AppInheritedWidget.of(cxt)
+                        .text('TokensOwned', category: 'overview'),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 100, 100, 100),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+              ],
+          );
+        }),
     );
   }
 
@@ -130,39 +133,76 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  Localization.text('Level4', category: 'overview'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 16,
-                  )
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: DefaultTextStyle.of(cxt).style.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                      decoration: TextDecoration.none,
-                      fontWeight: FontWeight.normal,
+            child: BlocBuilder(
+              bloc: _statsBloc,
+              builder: (BuildContext context, StatsState state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      (state is StatsLoaded)
+                      ? AppInheritedWidget.of(cxt)
+                        .text('Level', category: 'overview') + '${state.currentLevel}'
+                      : AppInheritedWidget.of(cxt)
+                        .text('Loading', category: 'overview'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 16,
+                      )),
+                    RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(cxt).style.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        children: AppInheritedWidget.of(cxt).language.code ==
+                          'ja-JP'
+                          ? (state is StatsLoaded
+                            ? [
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('Level', category: 'overview') + '${state.currentLevel + 1}',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('TokensUntil', category: 'overview')),
+                              TextSpan(
+                                text: '${state.tokensUntilNextLevel}',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            ]
+                            : [
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('Loading', category: 'overview')),
+                              ]
+                          )
+                          : (state is StatsLoaded
+                            ? [
+                              TextSpan(
+                                text: '${state.tokensUntilNextLevel}',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('TokensUntil', category: 'overview')),
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('Level', category: 'overview') + '${state.currentLevel + 1}',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            ]
+                            : [
+                              TextSpan(
+                                text: AppInheritedWidget.of(cxt)
+                                  .text('Loading', category: 'overview')),
+                            ]
+                        ),
+                      ),
                     ),
-                    children: Localization.getCurrentLanguage().code == 'ja-JP'
-                    ? [
-                      TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
-                      TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
-                    ]
-                    : [
-                      TextSpan(text: '777', style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: Localization.text('TokensUntil', category: 'overview')),
-                      TextSpan(text: Localization.text('Level5', category: 'overview'), style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
-              ],
+                  ],
+                );
+              },
             ),
           ),
           Padding(
@@ -184,7 +224,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: EdgeInsets.all(16),
             child: Center(
               child: Text(
-                Localization.text('CurrentDeals', category: 'overview'),
+                AppInheritedWidget.of(cxt)
+                    .text('CurrentDeals', category: 'overview'),
                 style: TextStyle(
                   color: Color.fromARGB(255, 15, 65, 131),
                   fontSize: 24,
@@ -198,7 +239,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child: DealCarousel(),
+                  child: Text(
+                    AppInheritedWidget.of(cxt)
+                      .text('ComingSoon', category: 'overview'),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ), // DealCarousel(),
                 ),
               ],
             ),
@@ -210,53 +259,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext cxt) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 57, 153, 184),
-        title: Padding(
-          padding: EdgeInsets.symmetric(vertical: 4),
-          child: Center(child: Image.asset('assets/images/7tk_title.png')),
-        ),
-        actions: [
-          InkWell(
-            onTap: () => _drawerLanguageButtonClicked(cxt),
-            child: Row(
-              children: [
-                Text(Localization.getCurrentLanguage().displayCode),
-                Padding(
-                  padding: EdgeInsets.only(left: 8, right: 12),
-                  child: Icon(MdiIcons.earth, size: 32),
-                ),
-              ],
-            ),
+    return WillPopScope(
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 57, 153, 184),
+          title: Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Center(child: Image.asset('assets/images/7tk_title.png')),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 4,
-              child: tokensOwnedBar(cxt),
-            ),
-            Expanded(
-              flex: 5,
-              child: tokenProgressBar(cxt),
-            ),
-            Expanded(
-              flex: 26,
-              child: dealCarouselBar(cxt),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(),
+          actions: [
+            InkWell(
+              onTap: () => _drawerLanguageButtonClicked(cxt),
+              child: Row(
+                children: [
+                  Text(AppInheritedWidget.of(cxt).language.displayCode),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8, right: 12),
+                    child: Icon(MdiIcons.earth, size: 32),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                flex: 4,
+                child: tokensOwnedBar(cxt),
+              ),
+              Expanded(
+                flex: 5,
+                child: tokenProgressBar(cxt),
+              ),
+              Expanded(
+                flex: 26,
+                child: dealCarouselBar(cxt),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(),
+              ),
+            ],
+          ),
+        ),
+        drawer: NavigationDrawer(),
+        endDrawer: LocalizationDrawer(),
       ),
-      drawer: NavigationDrawer(),
-      endDrawer: LocalizationDrawer(),
+      onWillPop: () {},
     );
   }
 }

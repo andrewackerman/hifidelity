@@ -1,46 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hifidelity/blocs_test/user_repository.dart';
+import 'package:hifidelity/blocs_test/wallets_bloc/bloc.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/localization_drawer.dart';
 import 'package:hifidelity/components/navigation_drawer.dart';
-import 'package:hifidelity/services/localization/localization.dart';
+import 'package:hifidelity/model/wallet.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
+  final UserRepository _userRepository;
+
+  SettingsScreen({Key key, @required UserRepository userRepository})
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        super(key: key);
+
   @override
   State createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final TextEditingController _newWalletController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
-  final walletAddresses = [
-    WalletAddress(
-      address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
-      isValid: true,
-    ),
-    WalletAddress(
-      address: '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
-      isValid: true,
-    ),
-    WalletAddress(
-      address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
-      isValid: false,
-    ),
-  ];
+  WalletsBloc _walletsBloc;
 
   @override
   void initState() {
-    Localization.addListener(localeChanged);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    Localization.removeListener(localeChanged);
-    super.dispose();
-  }
-
-  void localeChanged(Locale newLocale) {
-    setState(() {});
+    _walletsBloc = BlocProvider.of<WalletsBloc>(context);
   }
 
   void _drawerLanguageButtonClicked(BuildContext cxt) {
@@ -49,143 +39,199 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   final divider = Divider(height: 1, color: Colors.black);
 
-  void showRemoveWalletAddressDialog(BuildContext cxt) {
-    showDialog(context: cxt, builder: (BuildContext context) {
-      return AlertDialog(
-        content: Text(Localization.text('WalletDeleteAreYouSure', category: 'settings')),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('NoUpper')),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('YesUpper')),
-          ),
-        ],
-      );
-    });
+  void showRemoveWalletAddressDialog(BuildContext cxt, String walletAddr) {
+    showDialog(
+        context: cxt,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(AppInheritedWidget.of(cxt)
+                .text('WalletDeleteAreYouSure', category: 'settings')),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(cxt).pop(),
+                child: Text(AppInheritedWidget.of(cxt).text('NoUpper')),
+              ),
+              FlatButton(
+                onPressed: () {
+                  _walletsBloc.dispatch(DeleteWallet(Wallet(walletAddr)));
+                  Navigator.of(cxt).pop();
+                },
+                child: Text(AppInheritedWidget.of(cxt).text('YesUpper')),
+              ),
+            ],
+          );
+        });
   }
 
   void showAddWalletAddressDialog(BuildContext cxt) {
-    showDialog(context: cxt, builder: (BuildContext context) {
-      return AlertDialog(
-        contentPadding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: Localization.text('WalletAddress', category: 'settings'),
+    showDialog(
+        context: cxt,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding:
+                EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: _newWalletController,
+                    decoration: InputDecoration(
+                      hintText: AppInheritedWidget.of(cxt)
+                          .text('WalletAddress', category: 'settings'),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('Add', category: 'settings')),
-          ),
-        ],
-      );
-    });
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(cxt).pop(),
+                child: Text(AppInheritedWidget.of(cxt).text('CancelUpper')),
+              ),
+              FlatButton(
+                onPressed: () {
+                  _walletsBloc
+                      .dispatch(AddWallet(Wallet(_newWalletController.text)));
+                  _walletsBloc
+                      .dispatch(CheckWallet(Wallet(_newWalletController.text)));
+                  _newWalletController.clear();
+                  Navigator.of(cxt).pop();
+                },
+                child: Text(AppInheritedWidget.of(cxt)
+                    .text('Add', category: 'settings')),
+              ),
+            ],
+          );
+        });
   }
 
   void showManagePersonalInfoDialog(BuildContext cxt) {
     final nameController = TextEditingController(text: 'Tanya Michaelson');
     final addressController = TextEditingController(text: '137 Normany Way Rd');
     final cityController = TextEditingController(text: 'Harrisburg, PA, 17109');
-    final emailController = TextEditingController(text: 'testlongemail@email.com');
+    final emailController =
+        TextEditingController(text: 'testlongemail@email.com');
     final phoneController = TextEditingController(text: '1-646-555-1234');
-    showDialog(context: cxt, builder: (BuildContext context) {
-      return AlertDialog(
-        contentPadding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                hintText: Localization.text('Name', category: 'settings'),
-              ),
+    showDialog(
+        context: cxt,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding:
+                EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: AppInheritedWidget.of(cxt)
+                        .text('Name', category: 'settings'),
+                  ),
+                ),
+                TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    hintText: AppInheritedWidget.of(cxt)
+                        .text('Address', category: 'settings'),
+                  ),
+                ),
+                TextField(
+                  controller: cityController,
+                  decoration: InputDecoration(
+                    hintText: AppInheritedWidget.of(cxt)
+                        .text('CityStateZip', category: 'settings'),
+                  ),
+                ),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: AppInheritedWidget.of(cxt)
+                        .text('Email', category: 'settings'),
+                  ),
+                ),
+                TextField(
+                  controller: phoneController,
+                  decoration: InputDecoration(
+                    hintText: AppInheritedWidget.of(cxt)
+                        .text('PhoneNumber', category: 'settings'),
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: addressController,
-              decoration: InputDecoration(
-                hintText: Localization.text('Address', category: 'settings'),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(cxt).pop(),
+                child: Text(AppInheritedWidget.of(cxt).text('CancelUpper')),
               ),
-            ),
-            TextField(
-              controller: cityController,
-              decoration: InputDecoration(
-                hintText: Localization.text('CityStateZip', category: 'settings'),
+              FlatButton(
+                onPressed: () => Navigator.of(cxt).pop(),
+                child: Text(AppInheritedWidget.of(cxt).text('SaveUpper')),
               ),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                hintText: Localization.text('Email', category: 'settings'),
-              ),
-            ),
-            TextField(
-              controller: phoneController,
-              decoration: InputDecoration(
-                hintText: Localization.text('PhoneNumber', category: 'settings'),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('SaveUpper')),
-          ),
-        ],
-      );
-    });
+            ],
+          );
+        });
   }
 
   void showChangePasswordDialog(BuildContext cxt) {
-    showDialog(context: cxt, builder: (BuildContext context) {
-      return AlertDialog(
-        contentPadding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 2),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: Localization.text('Password', category: 'settings'),
+    showDialog(
+        context: cxt,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(AppInheritedWidget.of(cxt)
+                .text('ChangePassword', category: 'settings')),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(cxt).pop(),
+                child: Text(AppInheritedWidget.of(cxt).text('NoUpper')),
               ),
-            ),
-          ],
-        ),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('CancelUpper')),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.of(cxt).pop(),
-            child: Text(Localization.text('SaveUpper')),
-          ),
-        ],
-      );
-    });
+              FlatButton(
+                onPressed: () async {
+                  try {
+                    await widget._userRepository.resetPassword();
+                    _emailController.clear();
+                    Scaffold.of(cxt)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Email sent to linked account"),
+                              Icon(Icons.email),
+                            ],
+                          ),
+                          backgroundColor: Colors.grey,
+                        ),
+                      );
+                  } catch (_) {
+                    Scaffold.of(cxt)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Password Reset Failed to send'),
+                              Icon(Icons.error),
+                            ],
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                  } finally {
+                    Navigator.of(cxt).pop();
+                  }
+                },
+                child: Text(AppInheritedWidget.of(cxt).text('YesUpper')),
+              ),
+            ],
+          );
+        });
   }
 
   Widget padListItem({Widget child}) {
@@ -195,7 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget buildListViewActionRow({ String text, VoidCallback callback }) {
+  Widget buildListViewActionRow({String text, VoidCallback callback}) {
     var widget = padListItem(
       child: Row(
         children: [
@@ -226,42 +272,72 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return widget;
   }
 
-  List<Widget> buildWalletList(BuildContext cxt) {
-    List<Widget> wallets = [];
+  IconData getIcon(wallet) {
+    if (wallet.state == WalletState.Valid) {
+      return MdiIcons.checkCircleOutline;
+    } else if (wallet.state == WalletState.Invalid) {
+      return MdiIcons.cancel;
+    } else if (wallet.state == WalletState.Empty) {
+      return MdiIcons.clipboardAlertOutline;
+    } else {
+      return MdiIcons.cloudQuestion;
+    }
+  }
 
-    for (var address in walletAddresses) {
-      wallets.add(
+  MaterialColor getColor(wallet) {
+    if (wallet.state == WalletState.Valid) {
+      return Colors.green;
+    } else if (wallet.state == WalletState.Invalid) {
+      return Colors.red;
+    } else if (wallet.state == WalletState.Empty) {
+      return Colors.orange;
+    } else {
+      return Colors.grey;
+    }
+  }
+
+  List<Widget> buildWalletList(BuildContext cxt, List<Wallet> wallets) {
+    List<Widget> widWallets = [];
+
+    print("Wallets: $wallets");
+
+    for (Wallet wallet in wallets) {
+      widWallets.add(
         Material(
           child: InkWell(
-            onLongPress: () => showRemoveWalletAddressDialog(cxt),
+            onLongPress: () =>
+                showRemoveWalletAddressDialog(cxt, wallet.address),
             child: padListItem(
-              child: Row(
-                children: [
-                  Text(
-                    address.address,
-                  ),
-                  Expanded(child: Container()),
-                  Icon(
-                    address.isValid ? MdiIcons.checkCircleOutline : MdiIcons.cancel,
-                    color: address.isValid ? Colors.green : Colors.red,
-                  ),
-                ],
+              child: Container(
+                child: Row(
+                  children: [
+                    Text(
+                      wallet.address,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Expanded(child: Container()),
+                    Icon(
+                      getIcon(wallet),
+                      color: getColor(wallet),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       );
-      wallets.add(divider);
+      widWallets.add(divider);
     }
 
-    wallets.add(
+    widWallets.add(
       buildListViewActionRow(
-        text: Localization.text('Manage', category: 'settings'),
+        text: AppInheritedWidget.of(cxt).text('Manage', category: 'settings'),
         callback: () => showAddWalletAddressDialog(cxt),
       ),
     );
 
-    return wallets;
+    return widWallets;
   }
 
   List<Widget> buildPersonalInfo(BuildContext cxt) {
@@ -280,14 +356,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       divider,
       buildListViewActionRow(
-        text: Localization.text('Manage', category: 'settings'),
+        text: AppInheritedWidget.of(cxt).text('Manage', category: 'settings'),
         callback: () => showManagePersonalInfoDialog(cxt),
       ),
     ];
   }
 
   List<Widget> buildLanguageSetting(BuildContext cxt) {
-    final language = Localization.getCurrentLanguage();
+    final language = AppInheritedWidget.of(cxt).language;
     return [
       buildListViewActionRow(
         text: language.name,
@@ -299,7 +375,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   List<Widget> buildChangePassword(BuildContext cxt) {
     return [
       buildListViewActionRow(
-        text: Localization.text('ChangePassword', category: 'settings'),
+        text: AppInheritedWidget.of(cxt)
+            .text('ChangePassword', category: 'settings'),
         callback: () => showChangePasswordDialog(cxt),
       ),
     ];
@@ -355,7 +432,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () => _drawerLanguageButtonClicked(cxt),
             child: Row(
               children: [
-                Text(Localization.getCurrentLanguage().displayCode),
+                Text(AppInheritedWidget.of(cxt).language.displayCode),
                 Padding(
                   padding: EdgeInsets.only(left: 8, right: 12),
                   child: Icon(MdiIcons.earth, size: 32),
@@ -369,26 +446,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: Colors.grey[300],
         child: ListView(
           children: [
-            buildSettingsSectionHeader(Localization.text('Wallets', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt)
+                .text('Wallets', category: 'settings')),
             buildSettingsFloatingSection(
-              child: Column(
-                children: buildWalletList(cxt),
-              ),
+              child: BlocBuilder(
+                  bloc: _walletsBloc,
+                  builder: (BuildContext context, WalletsState state) {
+                    List<Wallet> wallets = [];
+                    print("State: $state");
+                    if (state is WalletsLoaded) {
+                      wallets = state.wallets;
+                      _walletsBloc.dispatch(CheckAllWallets());
+                    }
+                    return Column(
+                      children: buildWalletList(cxt, wallets),
+                    );
+                  }),
             ),
-            buildSettingsSectionHeader(Localization.text('PersonalInfo', category: 'settings')),
-            buildSettingsFloatingSection(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: buildPersonalInfo(cxt),
-              ),
-            ),
-            buildSettingsSectionHeader(Localization.text('Language', category: 'settings')),
+            // buildSettingsSectionHeader(AppInheritedWidget.of(cxt)
+            //     .text('PersonalInfo', category: 'settings')),
+            // buildSettingsFloatingSection(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: buildPersonalInfo(cxt),
+            //   ),
+            // ),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt)
+                .text('Language', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 children: buildLanguageSetting(cxt),
               ),
             ),
-            buildSettingsSectionHeader(Localization.text('Password', category: 'settings')),
+            buildSettingsSectionHeader(AppInheritedWidget.of(cxt)
+                .text('Password', category: 'settings')),
             buildSettingsFloatingSection(
               child: Column(
                 children: buildChangePassword(cxt),
@@ -401,14 +492,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       endDrawer: LocalizationDrawer(),
     );
   }
-}
 
-class WalletAddress {
-  final String address;
-  final bool isValid;
-
-  WalletAddress({
-    this.address,
-    this.isValid,
-  });
+  @override
+  void dispose() {
+    _newWalletController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
 }

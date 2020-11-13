@@ -25,6 +25,7 @@ const lang = <String, dynamic> {
     'register': {
       'Name': 'Name',
       'Email': 'Email',
+      'DontHaveLogin': 'Don\'t have a login?',
       'Register': 'REGISTER',
       'RegisterText': 'Register your account',
       'RegisterSubtext': 'Please fill out the info below to start.',
@@ -36,14 +37,17 @@ const lang = <String, dynamic> {
       'Login': 'LOGIN',
       'LoginText': 'Login to your account',
       'LoginSubtext': 'Please fill out the info below.',
+      'EmailInvalid': 'Please enter a valid email',
+      'PasswordInvalid': 'Password must be between 8 and 24 characters'
     },
     'overview': {
       'TokensOwned': 'Tokens Owned',
-      'Level4': 'Level 4',
+      'Loading': 'Loading...',
+      'Level': 'Level ',
       'TokensUntil': ' tokens until ',
-      'Level5': 'Level 5',
       'SeeAllBenefits': 'SEE ALL BENEFITS',
       'CurrentDeals': 'Current Deals',
+      'ComingSoon': 'Coming Soon...',
       'Benefits': 'Benefits',
       'History': 'History',
       'Dashboard': 'Dashboard',

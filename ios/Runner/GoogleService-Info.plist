@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>374781399650-d4dh434rl7upprnjr3lf2aqvjlg0peel.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.374781399650-d4dh434rl7upprnjr3lf2aqvjlg0peel</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBqGxWZRvFEe_pJvroBVSZO_IQX0Mi1aXM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>374781399650</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.seventk.hifidelity</string>
+	<key>PROJECT_ID</key>
+	<string>hifidelity7tk</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hifidelity7tk.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:374781399650:ios:6cf1424db72fa604</string>
+	<key>DATABASE_URL</key>
+	<string>https://hifidelity7tk.firebaseio.com</string>
+</dict>
+</plist>

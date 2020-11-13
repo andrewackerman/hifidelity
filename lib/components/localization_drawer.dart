@@ -1,14 +1,14 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
-import 'package:hifidelity/services/localization/localization.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
+import 'package:hifidelity/services/localization/localization_service.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class LocalizationDrawer extends StatelessWidget {
-
   _languageOptionPressed(BuildContext cxt, Language lang) {
     // print('${lang.name} pressed.');
-    Localization.setLocale(lang.locale);
+    AppInheritedWidget.of(cxt).languageCode = lang.key;
     Navigator.of(cxt).pop();
   }
 
@@ -51,11 +51,12 @@ class LocalizationDrawer extends StatelessWidget {
       );
     }
 
-    final languages = Localization.getSupportedLanguages();
-    final options = <Widget> [];
+    final languages = AppInheritedWidget.of(cxt).getLanguages();
+    final options = <Widget>[];
     for (var lang in languages) {
       // options.add(buildOption(lang['name'], (lang['code'] as String).toUpperCase(), () => print('${lang['name']} tapped.')));
-      options.add(buildOption(lang.name, lang.code, () => _languageOptionPressed(cxt, lang)));
+      options.add(buildOption(
+          lang.name, lang.code, () => _languageOptionPressed(cxt, lang)));
     }
 
     return Drawer(
@@ -100,7 +101,7 @@ class LocalizationDrawer extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                Localization.text('Close'),
+                                AppInheritedWidget.of(cxt).text('Close'),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -113,9 +114,8 @@ class LocalizationDrawer extends StatelessWidget {
                       ),
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: options
-                    ),
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: options),
                   ],
                 ),
               ),

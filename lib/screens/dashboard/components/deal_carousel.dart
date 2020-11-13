@@ -1,10 +1,12 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hifidelity/blocs_test/wallets_bloc/bloc.dart';
+import 'package:hifidelity/components/app_inherited_widget.dart';
 import 'package:hifidelity/components/gradient_raised_button.dart';
 import 'package:hifidelity/model/timespan.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:hifidelity/services/localization/localization.dart';
 
 class DealCarousel extends StatefulWidget {
   @override
@@ -82,7 +84,8 @@ class _DealCarouselState extends State<DealCarousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                Localization.text('TimeRemaining', category: 'dealcarousel'),
+                AppInheritedWidget.of(cxt)
+                    .text('TimeRemaining', category: 'dealcarousel'),
                 style: TextStyle(
                   fontSize: 10,
                   color: Color.fromARGB(255, 131, 131, 131),
@@ -149,7 +152,9 @@ class _DealCarouselState extends State<DealCarousel> {
               onTap: page > 0 ? leftCarouselButtonPressed : null,
               child: Transform.rotate(
                 angle: Math.pi,
-                child: page > 0 ? Image.asset('assets/images/carousel_button.png') : Image.asset('assets/images/carousel_button_disabled.png'),
+                child: page > 0
+                    ? Image.asset('assets/images/carousel_button.png')
+                    : Image.asset('assets/images/carousel_button_disabled.png'),
               ),
             ),
           ),
@@ -163,11 +168,13 @@ class _DealCarouselState extends State<DealCarousel> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: Image.asset(data[page].icon),
                       ),
                       Text(
-                        data[page].name[Localization.getCurrentLanguage().code],
+                        data[page]
+                            .name[AppInheritedWidget.of(cxt).language.code],
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -179,7 +186,8 @@ class _DealCarouselState extends State<DealCarousel> {
                   flex: 3,
                   child: Center(
                     child: AutoSizeText(
-                      Localization.text('AtA', category: 'dealcarousel'),
+                      AppInheritedWidget.of(cxt)
+                          .text('AtA', category: 'dealcarousel'),
                       minFontSize: 1,
                       maxFontSize: 999,
                       style: TextStyle(
@@ -194,70 +202,75 @@ class _DealCarouselState extends State<DealCarousel> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      LayoutBuilder(
-                        builder: (cxt, constraints) { 
-                          return Container(
-                            width: constraints.biggest.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  (100 - (data[page].newCostFactor * 100)).toInt().toString(),
-                                  style: TextStyle(
-                                    fontSize: 72 * (constraints.biggest.width / 130),
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[800],
-                                  ),
+                      LayoutBuilder(builder: (cxt, constraints) {
+                        return Container(
+                          width: constraints.biggest.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                (100 - (data[page].newCostFactor * 100))
+                                    .toInt()
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize:
+                                      72 * (constraints.biggest.width / 130),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
                                 ),
-                                Text(
-                                  '%',
-                                  style: TextStyle(
-                                    fontSize: 18 * (constraints.biggest.width / 130),
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[800],
-                                  ),
+                              ),
+                              Text(
+                                '%',
+                                style: TextStyle(
+                                  fontSize:
+                                      18 * (constraints.biggest.width / 130),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
                                 ),
-                              ],
-                            ),
-                          );
-                        }
-                      ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
                       AutoSizeText(
-                        Localization.text('Discount', category: 'dealcarousel'),
+                        AppInheritedWidget.of(cxt)
+                            .text('Discount', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
                       Padding(
                         padding: EdgeInsets.all(5),
                         child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: Localization.currency(data[page].normalCost),
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough,
-                                  fontSize: 12,
-                                ),
+                          text: TextSpan(children: [
+                            TextSpan(
+                              text: AppInheritedWidget.of(cxt)
+                                  .currency(data[page].normalCost),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 12,
                               ),
-                              TextSpan(
-                                text: ' ',
+                            ),
+                            TextSpan(
+                              text: ' ',
+                            ),
+                            TextSpan(
+                              text: AppInheritedWidget.of(cxt).currency(
+                                  data[page].normalCost *
+                                      data[page].newCostFactor),
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 56, 152, 185),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                              TextSpan(
-                                text: Localization.currency(data[page].normalCost * data[page].newCostFactor),
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 56, 152, 185),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ]
-                          ),
+                            ),
+                          ]),
                         ),
                       ),
                       AutoSizeText(
-                        Localization.text('OnTheDollar', category: 'dealcarousel'),
+                        AppInheritedWidget.of(cxt)
+                            .text('OnTheDollar', category: 'dealcarousel'),
                         maxLines: 1,
                         minFontSize: 1,
                       ),
@@ -271,7 +284,9 @@ class _DealCarouselState extends State<DealCarousel> {
             flex: 1,
             child: InkWell(
               onTap: page < data.length - 1 ? rightCarouselButtonPressed : null,
-              child: page < data.length - 1 ? Image.asset('assets/images/carousel_button.png') : Image.asset('assets/images/carousel_button_disabled.png'),
+              child: page < data.length - 1
+                  ? Image.asset('assets/images/carousel_button.png')
+                  : Image.asset('assets/images/carousel_button_disabled.png'),
             ),
           ),
         ],
@@ -296,7 +311,8 @@ class _DealCarouselState extends State<DealCarousel> {
                 ),
                 children: [
                   TextSpan(
-                    text: Localization.text('BuyUpTo', category: 'dealcarousel'),
+                    text: AppInheritedWidget.of(cxt)
+                        .text('BuyUpTo', category: 'dealcarousel'),
                   ),
                   TextSpan(
                     text: '\n',
@@ -309,7 +325,8 @@ class _DealCarouselState extends State<DealCarousel> {
                     ),
                   ),
                   TextSpan(
-                    text: Localization.text('Tokens', category: 'dealcarousel'),
+                    text: AppInheritedWidget.of(cxt)
+                        .text('Tokens', category: 'dealcarousel'),
                   ),
                 ],
               ),
@@ -319,9 +336,12 @@ class _DealCarouselState extends State<DealCarousel> {
             flex: 4,
             child: GradientRaisedButton(
               height: 35,
-              onPressed: () {},
+              onPressed: () {
+                // BlocProvider.of<WalletsBloc>(context).dispatch(LoadWallets());
+              },
               child: Text(
-                Localization.text('GetThisDeal', category: 'dealcarousel'),
+                AppInheritedWidget.of(cxt)
+                    .text('GetThisDeal', category: 'dealcarousel'),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -348,13 +368,11 @@ class _DealCarouselState extends State<DealCarousel> {
 
   @override
   Widget build(BuildContext cxt) {
-    return Column(
-      children: [
-        timeRemainingWidget(cxt),
-        carouselWidget(cxt),
-        getDealWidget(cxt),
-      ]
-    );
+    return Column(children: [
+      timeRemainingWidget(cxt),
+      carouselWidget(cxt),
+      getDealWidget(cxt),
+    ]);
   }
 }
 

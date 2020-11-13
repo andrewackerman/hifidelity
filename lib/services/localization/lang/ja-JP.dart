@@ -25,6 +25,7 @@ const lang = <String, dynamic> {
     'register': {
       'Name': 'お名前',
       'Email': 'Eメール',
+      'DontHaveLogin': 'ログインが必要ですか？',
       'Register': '登録',
       'RegisterText': 'アカウント登録',
       'RegisterSubtext': '以下の情報をご入力ください。',
@@ -36,14 +37,17 @@ const lang = <String, dynamic> {
       'Login': 'ログイン',
       'LoginText': 'アカウントにログイン',
       'LoginSubtext': '以下の情報をご入力ください。',
+      'EmailInvalid': '有効なメールアドレスを入力してください',
+      'PasswordInvalid': 'パスワードは8〜24文字にする必要があります'
     },
     'overview': {
       'TokensOwned': '保有トークン数',
-      'Level4': 'レベル4',
+      'Loading': 'ローディング...',
+      'Level': 'レベル',
       'TokensUntil': 'までに必要なトークン数:',
-      'Level5': 'レベル5',
       'SeeAllBenefits': '全特典を確認する',
       'CurrentDeals': '現在参加可能なプロジェクト',
+      'ComingSoon': '近日公開...',
       'Benefits': '特典',
       'History': '履歴',
       'Dashboard': 'ダッシュボード',
